@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>For Rashi 🌻</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Caveat', cursive;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: linear-gradient(180deg, #FFF8E7 0%, #FFEFC1 50%, #FFE4A0 100%);
+            overflow: hidden;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Instruction Text */
+        .instruction {
+            font-size: 2rem;
+            color: #5D4037;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Progress indicator */
+        .progress {
+            font-size: 1.5rem;
+            color: #8D6E63;
+            margin-bottom: 30px;
+        }
+
+        /* Vase and Bouquet */
+        .bouquet-area {
+            position: relative;
+            width: 280px;
+            height: 350px;
+            margin-bottom: 20px;
+        }
+
+        .vase {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 150px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+            border-radius: 10px 10px 60px 60px;
+            box-shadow: inset -10px 0 20px rgba(0,0,0,0.2), 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .vase::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            right: -10px;
+            height: 30px;
+            background: linear-gradient(135deg, #A0522D 0%, #CD853F 50%, #A0522D 100%);
+            border-radius: 10px;
+        }
+
+        /* Sunflower styles */
+        .sunflower {
+            position: absolute;
+            bottom: 120px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .sunflower.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .sunflower:nth-child(1) {
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+        }
+        .sunflower:nth-child(1).visible {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .sunflower:nth-child(2) {
+            left: 25%;
+            transform: translateX(-50%) rotate(-15deg) scale(0);
+        }
+        .sunflower:nth-child(2).visible {
+            transform: translateX(-50%) rotate(-15deg) scale(1);
+        }
+
+        .sunflower:nth-child(3) {
+            left: 75%;
+            transform: translateX(-50%) rotate(15deg) scale(0);
+        }
+        .sunflower:nth-child(3).visible {
+            transform: translateX(-50%) rotate(15deg) scale(1);
+        }
+
+        .stem {
+            width: 8px;
+            height: 120px;
+            background: linear-gradient(90deg, #228B22 0%, #32CD32 50%, #228B22 100%);
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .flower-head {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin: 0 auto -10px;
+        }
+
+        .petal {
+            position: absolute;
+            width: 25px;
+            height: 40px;
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: center bottom;
+        }
+
+        .center {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle, #8B4513 0%, #654321 70%, #3E2723 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        /* Click area */
+        .click-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        /* Valentine Question */
+        .valentine-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .valentine-screen h1 {
+            font-size: 2.5rem;
+            color: #5D4037;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #5D4037;
+        }
+
+        .btn-yes:hover, .btn-yes:active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,165,0,0.4);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+            color: #5D4037;
+            font-size: 1.2rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .success-screen h1 {
+            font-size: 2.5rem;
+            color: #5D4037;
+            margin-bottom: 20px;
+        }
+
+        .success-screen p {
+            font-size: 1.8rem;
+            color: #8D6E63;
+        }
+
+        /* Cat Animation */
+        .cat-container {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .cat {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .cat-body {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 80px;
+            background: #FFA726;
+            border-radius: 50px 50px 40px 40px;
+        }
+
+        .cat-head {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 70px;
+            background: #FFA726;
+            border-radius: 50%;
+        }
+
+        .cat-ear {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid #FFA726;
+        }
+
+        .cat-ear.left {
+            top: -20px;
+            left: 5px;
+            transform: rotate(-15deg);
+        }
+
+        .cat-ear.right {
+            top: -20px;
+            right: 5px;
+            transform: rotate(15deg);
+        }
+
+        .cat-ear-inner {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 16px solid #FFB74D;
+        }
+
+        .cat-ear-inner.left {
+            top: -12px;
+            left: 12px;
+            transform: rotate(-15deg);
+        }
+
+        .cat-ear-inner.right {
+            top: -12px;
+            right: 12px;
+            transform: rotate(15deg);
+        }
+
+        .cat-eye {
+            position: absolute;
+            width: 15px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            top: 20px;
+        }
+
+        .cat-eye.left { left: 15px; }
+        .cat-eye.right { right: 15px; }
+
+        .cat-eye::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            top: 5px;
+            left: 3px;
+        }
+
+        .cat-nose {
+            position: absolute;
+            width: 10px;
+            height: 8px;
+            background: #E91E63;
+            border-radius: 50%;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cat-mouth {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 10px;
+            border-bottom: 3px solid #333;
+            border-radius: 0 0 50% 50%;
+        }
+
+        .cat-whisker {
+            position: absolute;
+            width: 25px;
+            height: 2px;
+            background: #333;
+            bottom: 25px;
+        }
+
+        .cat-whisker.left-1 { left: -15px; transform: rotate(-10deg); }
+        .cat-whisker.left-2 { left: -18px; bottom: 30px; transform: rotate(5deg); }
+        .cat-whisker.right-1 { right: -15px; transform: rotate(10deg); }
+        .cat-whisker.right-2 { right: -18px; bottom: 30px; transform: rotate(-5deg); }
+
+        /* Thumbs up paw */
+        .cat-paw {
+            position: absolute;
+            bottom: 30px;
+            right: -30px;
+            animation: thumbsUp 1s ease-out forwards;
+        }
+
+        @keyframes thumbsUp {
+            0% { transform: rotate(0deg) scale(0); }
+            50% { transform: rotate(-10deg) scale(1.2); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+
+        .paw-arm {
+            width: 20px;
+            height: 50px;
+            background: #FFA726;
+            border-radius: 10px;
+            transform: rotate(-30deg);
+        }
+
+        .paw-thumb {
+            position: absolute;
+            top: -15px;
+            left: 5px;
+            width: 15px;
+            height: 25px;
+            background: #FFA726;
+            border-radius: 10px;
+            transform: rotate(30deg);
+        }
+
+        .paw-pad {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 15px;
+            background: #FFB74D;
+            border-radius: 50%;
+        }
+
+        /* Floating hearts */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatUp 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Hide elements */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Tap hint animation */
+        .tap-hint {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Bouquet Building Screen -->
+        <div id="bouquet-screen">
+            <p class="instruction">Tap anywhere to pick sunflowers for Rashi</p>
+            <p class="progress"><span id="count">0</span> / 3 sunflowers</p>
+
+            <div class="bouquet-area">
+                <!-- Sunflowers will appear here -->
+                <div class="sunflower" id="flower1">
+                    <div class="flower-head">
+                        <div class="center"></div>
+                    </div>
+                    <div class="stem"></div>
+                </div>
+                <div class="sunflower" id="flower2">
+                    <div class="flower-head">
+                        <div class="center"></div>
+                    </div>
+                    <div class="stem"></div>
+                </div>
+                <div class="sunflower" id="flower3">
+                    <div class="flower-head">
+                        <div class="center"></div>
+                    </div>
+                    <div class="stem"></div>
+                </div>
+                <div class="vase"></div>
+                <div class="tap-hint">👆</div>
+            </div>
+
+            <div class="click-area" id="click-area"></div>
+        </div>
+
+        <!-- Valentine Question Screen -->
+        <div class="valentine-screen" id="valentine-screen">
+            <h1>Will you be my Valentine?</h1>
+            <div class="buttons">
+                <button class="btn btn-yes" id="btn-yes">Yes, I would love to!</button>
+                <button class="btn btn-no" id="btn-no">No, I want to squish you like the lizard in my pant</button>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="success-screen">
+            <div class="cat-container">
+                <div class="cat">
+                    <div class="cat-body"></div>
+                    <div class="cat-head">
+                        <div class="cat-ear left"></div>
+                        <div class="cat-ear right"></div>
+                        <div class="cat-ear-inner left"></div>
+                        <div class="cat-ear-inner right"></div>
+                        <div class="cat-eye left"></div>
+                        <div class="cat-eye right"></div>
+                        <div class="cat-nose"></div>
+                        <div class="cat-mouth"></div>
+                        <div class="cat-whisker left-1"></div>
+                        <div class="cat-whisker left-2"></div>
+                        <div class="cat-whisker right-1"></div>
+                        <div class="cat-whisker right-2"></div>
+                    </div>
+                    <div class="cat-paw">
+                        <div class="paw-arm">
+                            <div class="paw-thumb"></div>
+                            <div class="paw-pad"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1>Yay! 🌻💛</h1>
+            <p>You made me the happiest!</p>
+        </div>
+    </div>
+
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <script>
+        // EmailJS Configuration
+        // TODO: Replace these with your actual EmailJS credentials
+        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+        // Initialize EmailJS
+        (function() {
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+        })();
+
+        // Generate petals for sunflowers
+        document.querySelectorAll('.flower-head').forEach(head => {
+            const petalCount = 16;
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const angle = (360 / petalCount) * i;
+                petal.style.transform = `rotate(${angle}deg) translateY(-30px)`;
+                head.appendChild(petal);
+            }
+        });
+
+        // Game state
+        let flowerCount = 0;
+        const totalFlowers = 3;
+
+        // Elements
+        const clickArea = document.getElementById('click-area');
+        const bouquetScreen = document.getElementById('bouquet-screen');
+        const valentineScreen = document.getElementById('valentine-screen');
+        const successScreen = document.getElementById('success-screen');
+        const countDisplay = document.getElementById('count');
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+        const tapHint = document.querySelector('.tap-hint');
+
+        // Add sunflower on click/tap
+        clickArea.addEventListener('click', (e) => {
+            if (flowerCount < totalFlowers) {
+                flowerCount++;
+                countDisplay.textContent = flowerCount;
+
+                const flower = document.getElementById(`flower${flowerCount}`);
+                flower.classList.add('visible');
+
+                // Create a small sunflower emoji at click position
+                createFloatingEmoji(e.clientX, e.clientY, '🌻');
+
+                if (flowerCount >= totalFlowers) {
+                    tapHint.classList.add('hidden');
+                    setTimeout(() => {
+                        showValentineScreen();
+                    }, 1000);
+                }
+            }
+        });
+
+        function createFloatingEmoji(x, y, emoji) {
+            const el = document.createElement('div');
+            el.textContent = emoji;
+            el.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                font-size: 2rem;
+                pointer-events: none;
+                z-index: 1000;
+                animation: floatUp 1s ease-out forwards;
+            `;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function showValentineScreen() {
+            bouquetScreen.classList.add('hidden');
+            valentineScreen.style.display = 'flex';
+        }
+
+        // Yes button
+        btnYes.addEventListener('click', () => {
+            valentineScreen.classList.add('hidden');
+            successScreen.style.display = 'flex';
+            createHearts();
+            sendEmailNotification();
+        });
+
+        // No button - runs away!
+        btnNo.addEventListener('mouseover', runAway);
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            runAway();
+        });
+
+        function runAway() {
+            const maxX = window.innerWidth - btnNo.offsetWidth - 40;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 40;
+
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = newX + 'px';
+            btnNo.style.top = newY + 'px';
+            btnNo.style.zIndex = '1000';
+        }
+
+        // Create floating hearts on success
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const emojis = ['💛', '🌻', '💕', '✨', '🧡'];
+
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    container.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 100);
+            }
+        }
+
+        // Send email notification
+        function sendEmailNotification() {
+            const templateParams = {
+                to_email: 'aryanghadge811@gmail.com',
+                message: 'Rashi said YES! 🌻💛',
+                reply_time: new Date().toLocaleString()
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(() => {
+                    console.log('Email sent successfully!');
+                })
+                .catch((error) => {
+                    console.log('Email failed to send:', error);
+                });
+        }
+    </script>
+</body>
+</html>
