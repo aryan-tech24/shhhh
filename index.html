@@ -63,8 +63,10 @@
         .bouquet-area {
             position: relative;
             width: 280px;
-            height: 350px;
-            margin-bottom: 20px;
+            height: 380px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
         }
 
         .vase {
@@ -93,7 +95,10 @@
         /* Sunflower styles */
         .sunflower {
             position: absolute;
-            bottom: 120px;
+            bottom: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             opacity: 0;
             transform: scale(0);
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -107,22 +112,25 @@
         .sunflower:nth-child(1) {
             left: 50%;
             transform: translateX(-50%) scale(0);
+            z-index: 3;
         }
         .sunflower:nth-child(1).visible {
             transform: translateX(-50%) scale(1);
         }
 
         .sunflower:nth-child(2) {
-            left: 25%;
+            left: 30%;
             transform: translateX(-50%) rotate(-15deg) scale(0);
+            z-index: 2;
         }
         .sunflower:nth-child(2).visible {
             transform: translateX(-50%) rotate(-15deg) scale(1);
         }
 
         .sunflower:nth-child(3) {
-            left: 75%;
+            left: 70%;
             transform: translateX(-50%) rotate(15deg) scale(0);
+            z-index: 2;
         }
         .sunflower:nth-child(3).visible {
             transform: translateX(-50%) rotate(15deg) scale(1);
@@ -130,34 +138,35 @@
 
         .stem {
             width: 8px;
-            height: 120px;
+            height: 100px;
             background: linear-gradient(90deg, #228B22 0%, #32CD32 50%, #228B22 100%);
-            margin: 0 auto;
             border-radius: 4px;
+            margin-top: -10px;
         }
 
         .flower-head {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             position: relative;
-            margin: 0 auto -10px;
         }
 
         .petal {
             position: absolute;
-            width: 25px;
-            height: 40px;
+            width: 18px;
+            height: 30px;
             background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
-            border-radius: 50% 50% 50% 50%;
-            top: 50%;
+            border-radius: 50% 50% 40% 40%;
             left: 50%;
-            transform-origin: center bottom;
+            top: 50%;
+            margin-left: -9px;
+            margin-top: -15px;
+            transform-origin: center center;
         }
 
         .center {
             position: absolute;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             background: radial-gradient(circle, #8B4513 0%, #654321 70%, #3E2723 100%);
             border-radius: 50%;
             top: 50%;
@@ -471,7 +480,7 @@
         /* Tap hint animation */
         .tap-hint {
             position: absolute;
-            bottom: 200px;
+            bottom: 220px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 3rem;
@@ -554,8 +563,7 @@
                     </div>
                 </div>
             </div>
-            <h1>Yay! 🌻💛</h1>
-            <p>You made me the happiest!</p>
+            <h1>🌻💛</h1>
         </div>
     </div>
 
@@ -575,12 +583,12 @@
 
         // Generate petals for sunflowers
         document.querySelectorAll('.flower-head').forEach(head => {
-            const petalCount = 16;
+            const petalCount = 14;
             for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
                 const angle = (360 / petalCount) * i;
-                petal.style.transform = `rotate(${angle}deg) translateY(-30px)`;
+                petal.style.transform = `rotate(${angle}deg) translateY(-25px)`;
                 head.appendChild(petal);
             }
         });
