@@ -18,6 +18,10 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             font-family: 'Caveat', cursive;
             min-height: 100vh;
@@ -26,6 +30,10 @@
             overflow: hidden;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
         }
 
         .container {
@@ -264,183 +272,22 @@
             color: #8D6E63;
         }
 
-        /* Cat Animation */
-        .cat-container {
-            width: 200px;
-            height: 200px;
+        /* Success Image */
+        .success-image {
+            max-width: 280px;
+            max-height: 280px;
+            width: 80vw;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 20px;
+            animation: popIn 0.5s ease-out;
         }
 
-        .cat {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .cat-body {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 80px;
-            background: #FFA726;
-            border-radius: 50px 50px 40px 40px;
-        }
-
-        .cat-head {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 70px;
-            background: #FFA726;
-            border-radius: 50%;
-        }
-
-        .cat-ear {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 30px solid #FFA726;
-        }
-
-        .cat-ear.left {
-            top: -20px;
-            left: 5px;
-            transform: rotate(-15deg);
-        }
-
-        .cat-ear.right {
-            top: -20px;
-            right: 5px;
-            transform: rotate(15deg);
-        }
-
-        .cat-ear-inner {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 16px solid #FFB74D;
-        }
-
-        .cat-ear-inner.left {
-            top: -12px;
-            left: 12px;
-            transform: rotate(-15deg);
-        }
-
-        .cat-ear-inner.right {
-            top: -12px;
-            right: 12px;
-            transform: rotate(15deg);
-        }
-
-        .cat-eye {
-            position: absolute;
-            width: 15px;
-            height: 20px;
-            background: #333;
-            border-radius: 50%;
-            top: 20px;
-        }
-
-        .cat-eye.left { left: 15px; }
-        .cat-eye.right { right: 15px; }
-
-        .cat-eye::after {
-            content: '';
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background: white;
-            border-radius: 50%;
-            top: 5px;
-            left: 3px;
-        }
-
-        .cat-nose {
-            position: absolute;
-            width: 10px;
-            height: 8px;
-            background: #E91E63;
-            border-radius: 50%;
-            bottom: 22px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .cat-mouth {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 10px;
-            border-bottom: 3px solid #333;
-            border-radius: 0 0 50% 50%;
-        }
-
-        .cat-whisker {
-            position: absolute;
-            width: 25px;
-            height: 2px;
-            background: #333;
-            bottom: 25px;
-        }
-
-        .cat-whisker.left-1 { left: -15px; transform: rotate(-10deg); }
-        .cat-whisker.left-2 { left: -18px; bottom: 30px; transform: rotate(5deg); }
-        .cat-whisker.right-1 { right: -15px; transform: rotate(10deg); }
-        .cat-whisker.right-2 { right: -18px; bottom: 30px; transform: rotate(-5deg); }
-
-        /* Thumbs up paw */
-        .cat-paw {
-            position: absolute;
-            bottom: 30px;
-            right: -30px;
-            animation: thumbsUp 1s ease-out forwards;
-        }
-
-        @keyframes thumbsUp {
-            0% { transform: rotate(0deg) scale(0); }
-            50% { transform: rotate(-10deg) scale(1.2); }
-            100% { transform: rotate(0deg) scale(1); }
-        }
-
-        .paw-arm {
-            width: 20px;
-            height: 50px;
-            background: #FFA726;
-            border-radius: 10px;
-            transform: rotate(-30deg);
-        }
-
-        .paw-thumb {
-            position: absolute;
-            top: -15px;
-            left: 5px;
-            width: 15px;
-            height: 25px;
-            background: #FFA726;
-            border-radius: 10px;
-            transform: rotate(30deg);
-        }
-
-        .paw-pad {
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 15px;
-            height: 15px;
-            background: #FFB74D;
-            border-radius: 50%;
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         /* Floating hearts */
@@ -491,6 +338,93 @@
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(-20px); }
         }
+
+        /* iPhone and small screens */
+        @media screen and (max-width: 420px) {
+            .instruction {
+                font-size: 1.6rem;
+                padding: 0 10px;
+            }
+
+            .progress {
+                font-size: 1.3rem;
+            }
+
+            .bouquet-area {
+                width: 240px;
+                height: 320px;
+                transform: scale(0.9);
+            }
+
+            .tap-hint {
+                bottom: 180px;
+                font-size: 2.5rem;
+            }
+
+            .valentine-screen h1 {
+                font-size: 2rem;
+                padding: 0 20px;
+            }
+
+            .buttons {
+                padding: 0 20px;
+            }
+
+            .btn {
+                font-size: 1.3rem;
+                padding: 12px 24px;
+            }
+
+            .btn-no {
+                font-size: 1rem;
+            }
+
+            .success-screen h1 {
+                font-size: 2rem;
+            }
+
+            .success-image {
+                max-width: 220px;
+                max-height: 220px;
+            }
+        }
+
+        /* Very small screens (iPhone SE, etc) */
+        @media screen and (max-width: 375px) {
+            .instruction {
+                font-size: 1.4rem;
+            }
+
+            .bouquet-area {
+                transform: scale(0.8);
+            }
+
+            .valentine-screen h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Landscape mode on phones */
+        @media screen and (max-height: 500px) {
+            .container {
+                padding: 10px;
+            }
+
+            .bouquet-area {
+                transform: scale(0.7);
+                height: 280px;
+            }
+
+            .success-image {
+                max-width: 150px;
+                max-height: 150px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -538,31 +472,7 @@
 
         <!-- Success Screen -->
         <div class="success-screen" id="success-screen">
-            <div class="cat-container">
-                <div class="cat">
-                    <div class="cat-body"></div>
-                    <div class="cat-head">
-                        <div class="cat-ear left"></div>
-                        <div class="cat-ear right"></div>
-                        <div class="cat-ear-inner left"></div>
-                        <div class="cat-ear-inner right"></div>
-                        <div class="cat-eye left"></div>
-                        <div class="cat-eye right"></div>
-                        <div class="cat-nose"></div>
-                        <div class="cat-mouth"></div>
-                        <div class="cat-whisker left-1"></div>
-                        <div class="cat-whisker left-2"></div>
-                        <div class="cat-whisker right-1"></div>
-                        <div class="cat-whisker right-2"></div>
-                    </div>
-                    <div class="cat-paw">
-                        <div class="paw-arm">
-                            <div class="paw-thumb"></div>
-                            <div class="paw-pad"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <img src="ye-fas-gaya.jpg" alt="Success" class="success-image">
             <h1>🌻💛</h1>
         </div>
     </div>
@@ -665,16 +575,18 @@
         });
 
         function runAway() {
-            const maxX = window.innerWidth - btnNo.offsetWidth - 40;
-            const maxY = window.innerHeight - btnNo.offsetHeight - 40;
+            const padding = 20;
+            const maxX = window.innerWidth - btnNo.offsetWidth - padding;
+            const maxY = window.innerHeight - btnNo.offsetHeight - padding;
 
-            const newX = Math.random() * maxX;
-            const newY = Math.random() * maxY;
+            const newX = Math.max(padding, Math.random() * maxX);
+            const newY = Math.max(padding, Math.random() * maxY);
 
             btnNo.style.position = 'fixed';
             btnNo.style.left = newX + 'px';
             btnNo.style.top = newY + 'px';
             btnNo.style.zIndex = '1000';
+            btnNo.style.maxWidth = '80vw';
         }
 
         // Create floating hearts on success
