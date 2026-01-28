@@ -18,10 +18,6 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            height: 100%;
-        }
-
         body {
             font-family: 'Caveat', cursive;
             min-height: 100vh;
@@ -30,10 +26,6 @@
             overflow: hidden;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
         }
 
         .container {
@@ -280,7 +272,6 @@
             height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
             animation: popIn 0.5s ease-out;
         }
 
@@ -465,15 +456,15 @@
         <div class="valentine-screen" id="valentine-screen">
             <h1>Will you be my Valentine?</h1>
             <div class="buttons">
-                <button class="btn btn-yes" id="btn-yes">Yes, I would love to!</button>
-                <button class="btn btn-no" id="btn-no">No, I want to squish you like the lizard in my pant</button>
+                <button class="btn btn-yes" id="btn-yes">Yes, I would like to</button>
+                <button class="btn btn-no" id="btn-no">No, I want to squish you like the lizard in my pants</button>
             </div>
         </div>
 
         <!-- Success Screen -->
         <div class="success-screen" id="success-screen">
-            <img src="ye-fas-gaya.jpg" alt="Success" class="success-image">
-            <h1>🌻💛</h1>
+            <h1>Me right now:</h1>
+            <img src="lottery.jpg" alt="Me right now" class="success-image">
         </div>
     </div>
 
@@ -589,10 +580,10 @@
             btnNo.style.maxWidth = '80vw';
         }
 
-        // Create floating hearts on success
+        // Create floating emojis on success
         function createHearts() {
             const container = document.getElementById('hearts-container');
-            const emojis = ['💛', '🌻', '💕', '✨', '🧡'];
+            const emojis = ['✨', '🎉', '🥳', '⭐'];
 
             for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
